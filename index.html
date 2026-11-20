@@ -455,7 +455,19 @@ function listen(index) {
     speech.lang = "en-US";
     speech.rate = 0.8;
 
-    speechSynthesis.speak(speech);
+    // Select a male voice
+    const voices = speechSynthesis.getVoices();
+
+    const maleVoice = voices.find(voice =>
+        /David|Mark|Guy|Christopher|Eric|Alex/i.test(voice.name)
+        && voice.lang === "en-US"
+);
+
+if (maleVoice) {
+    speech.voice = maleVoice;
+}
+
+speechSynthesis.speak(speech);
 
 }
 
