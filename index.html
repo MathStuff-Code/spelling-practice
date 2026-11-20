@@ -1,0 +1,703 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spelling Practice</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 12px;
+    background: #f0f2f5;
+    font-family: Arial, sans-serif;
+    color: #222;
+}
+
+.container {
+    max-width: 650px;
+    margin: auto;
+}
+
+header {
+    text-align: center;
+    padding: 15px;
+}
+
+header h1 {
+    margin: 5px;
+    font-size: 30px;
+}
+
+header p {
+    color: #666;
+}
+
+.panel {
+    background: white;
+    padding: 18px;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px #00000012;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.lesson-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.lesson-button {
+    padding: 18px 5px;
+    border: none;
+    border-radius: 9px;
+    background: #222;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.lesson-button:active {
+    background: #444;
+}
+
+.lesson-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.back-button {
+    border: none;
+    background: #e5e5e5;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.progress {
+    color: #666;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.word-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.word-row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 48px;
+}
+
+.status {
+    width: 55px;
+    min-width: 55px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status.correct {
+    color: #0875dc;
+    font-size: 20px;
+}
+
+.status.wrong {
+    color: #e33434;
+}
+
+.retry-button {
+    min-width: 62px;
+    padding: 10px 4px;
+    border: none;
+    border-radius: 6px;
+    background: #e33434;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.word-input {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    height: 46px;
+    padding: 10px;
+    border: 2px solid #222;
+    border-radius: 7px;
+    background: #222;
+    color: white;
+    font-size: 17px;
+    outline: none;
+}
+
+.word-input:focus {
+    border-color: #1685e5;
+}
+
+.word-input:disabled {
+    opacity: 1;
+    background: #222;
+    color: #ddd;
+}
+
+.listen-button {
+    width: 46px;
+    min-width: 46px;
+    height: 46px;
+    border: none;
+    border-radius: 7px;
+    background: #e5e5e5;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.check-all {
+    width: 100%;
+    margin-top: 22px;
+    padding: 17px;
+    background: #0875dc;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+}
+
+.result-letters {
+    margin-top: 5px;
+    padding: 9px;
+    background: #222;
+    border-radius: 7px;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    overflow-wrap: anywhere;
+    min-height: 38px;
+}
+
+.good-letter {
+    color: #1685ff;
+}
+
+.bad-letter {
+    color: #ff4545;
+}
+
+.complete-message {
+    text-align: center;
+    color: #0875dc;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+@media(max-width: 400px) {
+    body {
+        padding: 8px;
+    }
+
+    .panel {
+        padding: 11px;
+    }
+
+    .lesson-grid {
+        gap: 7px;
+    }
+
+    .lesson-button {
+        padding: 15px 3px;
+    }
+
+    .status {
+        width: 45px;
+        min-width: 45px;
+    }
+
+    .retry-button {
+        min-width: 55px;
+        font-size: 11px;
+    }
+
+    .word-row {
+        gap: 5px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+    <h1>Spelling Practice</h1>
+    <p>Listen, spell, and learn!</p>
+</header>
+
+<!-- HOME PAGE -->
+
+<div id="homePage" class="panel">
+
+    <h2>Select a Lesson</h2>
+    <p>Choose a letter to begin.</p>
+
+    <div class="lesson-grid" id="lessonGrid"></div>
+
+</div>
+
+<!-- LESSON PAGE -->
+
+<div id="lessonPage" class="panel hidden">
+
+    <div class="lesson-heading">
+
+        <button class="back-button" onclick="goHome()">
+            ← Lessons
+        </button>
+
+        <h2 id="lessonTitle">Lesson A</h2>
+
+        <span class="progress" id="progress">
+            0 / 20
+        </span>
+
+    </div>
+
+    <div class="word-list" id="wordList"></div>
+
+    <button class="check-all" onclick="checkAll()">
+        Check Spelling
+    </button>
+
+    <div id="completeMessage" class="complete-message"></div>
+
+</div>
+
+</div>
+
+<script>
+
+// ====================================
+// SPELLING WORDS
+// ====================================
+
+const lessons = {
+
+A: ["top","but","and","cat","red","six","all","my","not","ten","hat","be","am","is","bed","run","ran","go","do","did"],
+
+B: ["balloon","banana","basket","beautiful","because","before","believe","bicycle","birthday","blanket","butterfly","brother","building","business","button","bottle","bottom","bridge","bright","broken"],
+
+C: ["camera","candle","captain","careful","carrot","castle","celebrate","center","certain","chance","change","cheese","chicken","children","chocolate","circle","climate","climbing","country","curious"],
+
+D: ["danger","daughter","december","decide","decorate","delicious","dentist","describe","desert","different","difficult","dinner","direction","discover","dolphin","dragon","drawing","dream","during","duty"],
+
+E: ["eagle","early","earth","easily","easter","education","effect","effort","eight","either","electric","elephant","elevator","emergency","emotion","empty","engine","enjoy","enough","example"],
+
+F: ["fabric","family","famous","farmer","favorite","feather","february","festival","fiction","fifteen","finally","finger","fireplace","flamingo","flower","football","forest","forward","freedom","friend"],
+
+G: ["gallery","garden","garbage","gather","general","gentle","geography","gesture","ginger","giraffe","glasses","glitter","golden","government","graceful","grandfather","grateful","gravity","grocery","growing"],
+
+H: ["habitat","hamburger","happiness","harvest","healthy","heaven","helicopter","helpful","history","holiday","honest","hospital","however","hundred","hungry","hunter","hurricane","husband","hygiene","hypothesis"],
+
+I: ["iceberg","icecream","icicle","idea","identify","imagine","important","impossible","improve","include","increase","independent","industry","influence","information","insect","inside","instead","instrument","interesting"],
+
+J: ["jacket","jaguar","January","jealous","jelly","jellyfish","jewelry","journey","journal","joyful","judge","juicy","jumble","jumbo","jumping","jungle","junior","justice","justify","juvenile"],
+
+K: ["kangaroo","karate","kayak","keeper","kernel","ketchup","kettle","keyboard","kickoff","kidnap","kindness","kingdom","kitchen","kitten","kiwi","kneecap","kneel","knife","knight","knowledge"],
+
+L: ["laboratory","ladybug","language","lantern","laundry","leather","lemonade","library","lightning","limit","listening","little","lizard","location","lonely","lovely","loyal","luggage","lullaby","lunch"],
+
+M: ["machine","magazine","magical","mailbox","manager","marble","market","marriage","material","maximum","measure","medicine","memory","message","midnight","million","minute","miracle","mountain","museum"],
+
+N: ["natural","nearby","necessary","necklace","negative","neighbor","neither","nervous","network","newspaper","nickname","ninety","nobody","noodle","normal","north","nothing","notice","November","number"],
+
+O: ["oatmeal","obedient","object","observation","occasion","ocean","october","octopus","officer","official","olympic","onion","opening","opinion","opposite","orange","ordinary","organize","original","outside"],
+
+P: ["package","painting","pancake","parachute","parent","passenger","patient","peaceful","peanut","perfect","perhaps","photograph","piano","picnic","picture","playground","pleasant","pocket","popular","possible"],
+
+Q: ["quality","quantity","quarter","queen","question","quickly","quietly","quilt","quince","quiver","quiz","quotation","quote","quarrel","quartz","quench","query","quest","queue","quirky"],
+
+R: ["rabbit","rainbow","rapidly","raspberry","reaction","reading","realize","reason","receive","record","recycle","remember","restaurant","return","rhythm","ribbon","river","rocket","rough","running"],
+
+S: ["sandwich","Saturday","science","scissors","season","secret","sentence","separate","serious","shadow","shoulder","signature","similar","sincerely","skating","soldier","special","squirrel","straight","surprise"],
+
+T: ["tablecloth","talented","tangerine","teacher","temperature","terrible","thankful","theater","thirteen","thousand","thoughtful","thunder","together","tomorrow","toothbrush","tornado","traffic","treasure","triangle","trouble"],
+
+U: ["umbrella","unanimous","uncomfortable","underneath","understand","universe","university","unknown","unlikely","unusual","update","upgrade","upstairs","upward","urgent","useful","usually","utility","utensil","ultimate"],
+
+V: ["vacation","vacuum","valuable","vanilla","variety","vegetable","vehicle","velocity","velvet","venture","version","victory","village","violin","virtual","visible","visitor","vitamin","volcano","volunteer"],
+
+W: ["waffle","walking","wander","warrior","waterfall","weather","wedding","weekend","welcome","western","whenever","whisper","whistle","wildlife","window","winner","wonderful","wooden","workshop","written"],
+
+X: ["xylophone","xylem","xenon","xenial","xenolith","xeric","xerophyte","xiphoid","xylan","xylene","xylitol","xylocarp","xylophone","xenogenesis","xenophobia","xenophobic","xenograft","xerography","xerothermic","xenophile"],
+
+Y: ["yacht","yawning","yearly","yellow","yesterday","yogurt","youngster","yourself","youthful","yummy","yardstick","yearbook","yearling","yearlong","yeast","yield","yonder","youth","yodel","yolk"],
+
+Z: ["zebra","zero","zigzag","zillion","zipper","zodiac","zombie","zookeeper","zoology","zucchini","zealous","zenith","zeppelin","zestful","zigzagging","zinc","zipline","zither","zone","zoologist"]
+
+};
+
+
+// ====================================
+// VARIABLES
+// ====================================
+
+let currentLesson = "";
+
+let wordStates = [];
+
+const homePage = document.getElementById("homePage");
+const lessonPage = document.getElementById("lessonPage");
+const wordList = document.getElementById("wordList");
+
+
+// ====================================
+// CREATE LESSON BUTTONS
+// ====================================
+
+const lessonGrid = document.getElementById("lessonGrid");
+
+"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(letter => {
+
+    const button = document.createElement("button");
+
+    button.className = "lesson-button";
+    button.textContent = letter;
+
+    button.onclick = () => openLesson(letter);
+
+    lessonGrid.appendChild(button);
+
+});
+
+
+// ====================================
+// OPEN LESSON
+// ====================================
+
+function openLesson(letter) {
+
+    currentLesson = letter;
+
+    homePage.classList.add("hidden");
+    lessonPage.classList.remove("hidden");
+
+    document.getElementById("lessonTitle").textContent =
+        "Lesson " + letter;
+
+    document.getElementById("completeMessage").textContent = "";
+
+    wordStates = lessons[letter].map(word => ({
+
+        word: word,
+        answer: "",
+        attempts: 0,
+        correct: false,
+        checked: false
+
+    }));
+
+    renderWords();
+
+}
+
+
+// ====================================
+// RETURN HOME
+// ====================================
+
+function goHome() {
+
+    speechSynthesis.cancel();
+
+    lessonPage.classList.add("hidden");
+    homePage.classList.remove("hidden");
+
+}
+
+
+// ====================================
+// LISTEN TO WORD
+// ====================================
+
+function listen(index) {
+
+    if (!window.speechSynthesis) {
+        alert("Speech is not supported in this browser.");
+        return;
+    }
+
+    speechSynthesis.cancel();
+
+    const speech = new SpeechSynthesisUtterance(
+        wordStates[index].word
+    );
+
+    speech.lang = "en-US";
+    speech.rate = 0.8;
+
+    speechSynthesis.speak(speech);
+
+}
+
+
+// ====================================
+// DISPLAY ALL WORDS
+// ====================================
+
+function renderWords() {
+
+    wordList.innerHTML = "";
+
+    wordStates.forEach((state, index) => {
+
+        const row = document.createElement("div");
+
+        row.className = "word-row";
+
+
+        // STATUS
+
+        const status = document.createElement("div");
+
+        status.className = "status";
+
+        if (state.correct) {
+
+            status.classList.add("correct");
+            status.textContent = "✓";
+
+        } else if (state.checked) {
+
+            status.classList.add("wrong");
+            status.textContent = "WRONG";
+
+        }
+
+        row.appendChild(status);
+
+
+        // INDIVIDUAL CHECK BUTTON
+
+        if (state.checked && !state.correct) {
+
+            const retry = document.createElement("button");
+
+            retry.className = "retry-button";
+            retry.textContent = "CHECK";
+
+            retry.onclick = () => checkOne(index);
+
+            row.appendChild(retry);
+
+        }
+
+
+        // INPUT ALWAYS STAYS VISIBLE
+
+        const input = document.createElement("input");
+
+        input.className = "word-input";
+
+        input.type = "text";
+        input.placeholder = "Type spelling...";
+        input.autocomplete = "off";
+        input.autocapitalize = "none";
+        input.spellcheck = false;
+
+        input.value = state.answer;
+
+        input.disabled = state.correct;
+
+        input.addEventListener("input", event => {
+
+            state.answer = event.target.value;
+
+        });
+
+        row.appendChild(input);
+
+
+        // LISTEN BUTTON
+
+        const listenButton = document.createElement("button");
+
+        listenButton.className = "listen-button";
+
+        listenButton.textContent = "🔊";
+
+        listenButton.title = "Listen to word";
+
+        listenButton.onclick = () => listen(index);
+
+        row.appendChild(listenButton);
+
+
+        // ADD ROW TO PAGE
+
+        const wrapper = document.createElement("div");
+
+        wrapper.appendChild(row);
+
+
+        // COLORED LETTERS AFTER SECOND WRONG ATTEMPT
+
+        if (
+            state.checked &&
+            !state.correct &&
+            state.attempts >= 2
+        ) {
+
+            const letters = document.createElement("div");
+
+            letters.className = "result-letters";
+
+            const target = state.word.toLowerCase();
+
+            const answer = state.answer.toLowerCase();
+
+            for (let i = 0; i < answer.length; i++) {
+
+                const span = document.createElement("span");
+
+                span.textContent = answer[i];
+
+                if (answer[i] === target[i]) {
+
+                    span.className = "good-letter";
+
+                } else {
+
+                    span.className = "bad-letter";
+
+                }
+
+                letters.appendChild(span);
+
+            }
+
+            wrapper.appendChild(letters);
+
+        }
+
+        wordList.appendChild(wrapper);
+
+    });
+
+    updateProgress();
+
+}
+
+
+// ====================================
+// CHECK ALL WORDS
+// ====================================
+
+function checkAll() {
+
+    wordStates.forEach((state, index) => {
+
+        if (!state.correct) {
+
+            evaluateWord(index);
+
+        }
+
+    });
+
+    renderWords();
+
+}
+
+
+// ====================================
+// CHECK ONE WORD
+// ====================================
+
+function checkOne(index) {
+
+    evaluateWord(index);
+
+    renderWords();
+
+}
+
+
+// ====================================
+// COMPARE SPELLING
+// ====================================
+
+function evaluateWord(index) {
+
+    const state = wordStates[index];
+
+    if (state.correct) return;
+
+    state.attempts++;
+
+    const answer = state.answer.trim().toLowerCase();
+
+    const target = state.word.toLowerCase();
+
+    state.checked = true;
+
+    if (answer === target) {
+
+        state.correct = true;
+
+    }
+
+}
+
+
+// ====================================
+// UPDATE PROGRESS
+// ====================================
+
+function updateProgress() {
+
+    const completed = wordStates.filter(
+        state => state.correct
+    ).length;
+
+    document.getElementById("progress").textContent =
+        completed + " / 20";
+
+
+    if (completed === 20) {
+
+        document.getElementById("completeMessage").textContent =
+            "🎉 Excellent! You completed Lesson " +
+            currentLesson + "!";
+
+    } else {
+
+        document.getElementById("completeMessage").textContent = "";
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
