@@ -169,6 +169,24 @@ header p {
     cursor: pointer;
 }
 
+.sentence-button {
+    min-width: 82px;
+    height: 46px;
+    padding: 0 9px;
+    border: none;
+    border-radius: 7px;
+    background: #dceeff;
+    color: #075ca8;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.listen-button:active,
+.sentence-button:active {
+    filter: brightness(0.9);
+}
+
 .check-all {
     width: 100%;
     margin-top: 22px;
@@ -301,59 +319,466 @@ header p {
 // ====================================
 
 const lessons = {
-
-A: ["top","but","and","cat","red","six","all","my","not","ten","hat","be","am","is","bed","run","ran","go","do","did"],
-
-B: ["balloon","banana","basket","beautiful","because","before","believe","bicycle","birthday","blanket","butterfly","brother","building","business","button","bottle","bottom","bridge","bright","broken"],
-
-C: ["camera","candle","captain","careful","carrot","castle","celebrate","center","certain","chance","change","cheese","chicken","children","chocolate","circle","climate","climbing","country","curious"],
-
-D: ["danger","daughter","december","decide","decorate","delicious","dentist","describe","desert","different","difficult","dinner","direction","discover","dolphin","dragon","drawing","dream","during","duty"],
-
-E: ["eagle","early","earth","easily","easter","education","effect","effort","eight","either","electric","elephant","elevator","emergency","emotion","empty","engine","enjoy","enough","example"],
-
-F: ["fabric","family","famous","farmer","favorite","feather","february","festival","fiction","fifteen","finally","finger","fireplace","flamingo","flower","football","forest","forward","freedom","friend"],
-
-G: ["gallery","garden","garbage","gather","general","gentle","geography","gesture","ginger","giraffe","glasses","glitter","golden","government","graceful","grandfather","grateful","gravity","grocery","growing"],
-
-H: ["habitat","hamburger","happiness","harvest","healthy","heaven","helicopter","helpful","history","holiday","honest","hospital","however","hundred","hungry","hunter","hurricane","husband","hygiene","hypothesis"],
-
-I: ["iceberg","icecream","icicle","idea","identify","imagine","important","impossible","improve","include","increase","independent","industry","influence","information","insect","inside","instead","instrument","interesting"],
-
-J: ["jacket","jaguar","January","jealous","jelly","jellyfish","jewelry","journey","journal","joyful","judge","juicy","jumble","jumbo","jumping","jungle","junior","justice","justify","juvenile"],
-
-K: ["kangaroo","karate","kayak","keeper","kernel","ketchup","kettle","keyboard","kickoff","kidnap","kindness","kingdom","kitchen","kitten","kiwi","kneecap","kneel","knife","knight","knowledge"],
-
-L: ["laboratory","ladybug","language","lantern","laundry","leather","lemonade","library","lightning","limit","listening","little","lizard","location","lonely","lovely","loyal","luggage","lullaby","lunch"],
-
-M: ["machine","magazine","magical","mailbox","manager","marble","market","marriage","material","maximum","measure","medicine","memory","message","midnight","million","minute","miracle","mountain","museum"],
-
-N: ["natural","nearby","necessary","necklace","negative","neighbor","neither","nervous","network","newspaper","nickname","ninety","nobody","noodle","normal","north","nothing","notice","November","number"],
-
-O: ["oatmeal","obedient","object","observation","occasion","ocean","october","octopus","officer","official","olympic","onion","opening","opinion","opposite","orange","ordinary","organize","original","outside"],
-
-P: ["package","painting","pancake","parachute","parent","passenger","patient","peaceful","peanut","perfect","perhaps","photograph","piano","picnic","picture","playground","pleasant","pocket","popular","possible"],
-
-Q: ["quality","quantity","quarter","queen","question","quickly","quietly","quilt","quince","quiver","quiz","quotation","quote","quarrel","quartz","quench","query","quest","queue","quirky"],
-
-R: ["rabbit","rainbow","rapidly","raspberry","reaction","reading","realize","reason","receive","record","recycle","remember","restaurant","return","rhythm","ribbon","river","rocket","rough","running"],
-
-S: ["sandwich","Saturday","science","scissors","season","secret","sentence","separate","serious","shadow","shoulder","signature","similar","sincerely","skating","soldier","special","squirrel","straight","surprise"],
-
-T: ["tablecloth","talented","tangerine","teacher","temperature","terrible","thankful","theater","thirteen","thousand","thoughtful","thunder","together","tomorrow","toothbrush","tornado","traffic","treasure","triangle","trouble"],
-
-U: ["umbrella","unanimous","uncomfortable","underneath","understand","universe","university","unknown","unlikely","unusual","update","upgrade","upstairs","upward","urgent","useful","usually","utility","utensil","ultimate"],
-
-V: ["vacation","vacuum","valuable","vanilla","variety","vegetable","vehicle","velocity","velvet","venture","version","victory","village","violin","virtual","visible","visitor","vitamin","volcano","volunteer"],
-
-W: ["waffle","walking","wander","warrior","waterfall","weather","wedding","weekend","welcome","western","whenever","whisper","whistle","wildlife","window","winner","wonderful","wooden","workshop","written"],
-
-X: ["xylophone","xylem","xenon","xenial","xenolith","xeric","xerophyte","xiphoid","xylan","xylene","xylitol","xylocarp","xylophone","xenogenesis","xenophobia","xenophobic","xenograft","xerography","xerothermic","xenophile"],
-
-Y: ["yacht","yawning","yearly","yellow","yesterday","yogurt","youngster","yourself","youthful","yummy","yardstick","yearbook","yearling","yearlong","yeast","yield","yonder","youth","yodel","yolk"],
-
-Z: ["zebra","zero","zigzag","zillion","zipper","zodiac","zombie","zookeeper","zoology","zucchini","zealous","zenith","zeppelin","zestful","zigzagging","zinc","zipline","zither","zone","zoologist"]
-
+    "A": {
+        "words": [
+            "top",
+            "but",
+            "and",
+            "cat",
+            "red",
+            "six",
+            "all",
+            "my",
+            "not",
+            "ten",
+            "hat",
+            "be",
+            "am",
+            "is",
+            "bed",
+            "run",
+            "ran",
+            "go",
+            "do",
+            "did"
+        ],
+        "sentences": [
+            "Start from the top and count the words.",
+            "You can do that but be careful.",
+            "Christ is all, and in all .--Colossians 3:11",
+            "A cat can eat a rat.--Webster's Bluebacked Speller",
+            "The sky is red.",
+            "Lincoln read the Bible through six times during his youth.",
+            "God is with me at all times.--McGuffey Primer",
+            "My mother teaches me good things.",
+            "Do not withhold good.--Proverbs 3:27",
+            "A dime is worth ten cents. A shilling is worth ten pence.",
+            "Abraham Lincoln removed his top hat to pray.",
+            "If you walk with wise men you will be wise.--Proverbs 13:20",
+            "He is ten and I am six.",
+            "The cat is purring.",
+            "My bed is a little boat.--Robert Louis Stevenson.",
+            "All rivers run into the sea, and yet the sea is not full.--Ecclesiastes 1:7",
+            "All six boys ran up a hill.",
+            "You can go play after lunch.",
+            "I cannot what I will not do.--Shakespeare",
+            "Today, I do; yesterday, I did."
+        ]
+    },
+    "B": {
+        "words": [
+            "tan",
+            "can",
+            "so",
+            "no",
+            "pet",
+            "a",
+            "an",
+            "the",
+            "good",
+            "last",
+            "bag",
+            "beg",
+            "big",
+            "bog",
+            "bug",
+            "fish",
+            "odd",
+            "hill",
+            "hit",
+            "step"
+        ],
+        "sentences": [
+            "In Oregon it rains so much that we do not tan, we rust.",
+            "I can do it!",
+            "I am so glad you want to learn to read.",
+            "No cat is the mother to puppies.",
+            "The maple is a dainty maid, the pet of all the wood.",
+            "A bad boy has woe.--McGuffey Primer",
+            "The cat sees an old dog.",
+            "Do not walk in the way of evil.--Proverbs 4:14b",
+            "Good children must fear God all day.--New England Primer",
+            "Christians never see each other for the last time.",
+            "Give me the tan paper bag.",
+            "My teacher says I should not beg.",
+            "The little hills were so big to me.",
+            "No, I must not let them bog me down with too much work.",
+            "My pet is as snug as a bug in a rug.",
+            "I see a fish.",
+            "An unusual fish can be called an odd fish.",
+            "I ran to the top of the hill.",
+            "That was a good base hit.",
+            "The first step is harder that the last step."
+        ]
+    },
+    "C": {
+        "words": [
+            "in",
+            "by",
+            "out",
+            "to",
+            "into",
+            "up",
+            "on",
+            "over",
+            "at",
+            "of",
+            "I",
+            "me",
+            "you",
+            "he",
+            "him",
+            "she",
+            "her",
+            "it",
+            "we",
+            "us"
+        ],
+        "sentences": [
+            "The dog is in the kennel.",
+            "The dog is by the kennel.",
+            "The dog comes out the door of the kennel.",
+            "He goes back to the kennel.",
+            "He crawls into it.",
+            "He climbs up the kennel.",
+            "He is on the kennel.",
+            "He jumps over it.",
+            "The dog is at the kennel.",
+            "This is the dennel of the dog.",
+            "Use the word I if it is something you do.",
+            "Use the word me if it is something you receive.",
+            "You refers to the person you are talking to directly.",
+            "He refers to a male who does something.",
+            "Him refers to a male who receives something.",
+            "She refers to a female who does something.",
+            "Her refers to a female who receives something.",
+            "It refers to a thing that is not a person.",
+            "We refers to you and I doing the action.",
+            "Us refers to you and I receiving the action."
+        ]
+    },
+    "D": {
+        "words": [
+            "man",
+            "boy",
+            "book",
+            "dog",
+            "home",
+            "school",
+            "street",
+            "mother",
+            "time",
+            "hand",
+            "make",
+            "jump",
+            "say",
+            "play",
+            "are",
+            "must",
+            "was",
+            "has",
+            "have",
+            "had"
+        ],
+        "sentences": [
+            "In a calm sea every man is a pilot.--John Ray,1705",
+            "When does a boy become a man?",
+            "This Book will keep you from sin or sin will keep you from this Book.--D.L.Moody",
+            "A barking dog seldom bites.",
+            "There is no place like home.",
+            "School at home is good. --New England Primer",
+            "An old unpainted fence staggered down the winding street.",
+            "No man is poor who has had a godly mother.--Abraham Lincoln",
+            "You may delay, but time will not.--Poor Richard's Almanack",
+            "The hand that rocks the cradle rules the world.",
+            "I did not make the world out of nothing, but God did.",
+            "May we jump rope this sunny day?",
+            "The deeds we do, the words we say, are all reserved for Judgment Day.",
+            "You must play quietly when the baby is sleeping.",
+            "What we are in more important than what we do.--Hudson Taylor",
+            "Boys and girls must not be rude in play.--McGuffey Primer",
+            "Long ago the man was a little boy.",
+            "The boy has no time to play.",
+            "Words have more power that atom bombs.",
+            "I have had more trouble with myself thatn with any other man.--D.L.Moody"
+        ]
+    },
+    "E": {
+        "words": [
+            "thick",
+            "look",
+            "see",
+            "may",
+            "this",
+            "your",
+            "bad",
+            "love",
+            "short",
+            "wave",
+            "ring",
+            "kill",
+            "toy",
+            "like",
+            "will",
+            "fun",
+            "trade",
+            "robe",
+            "wash",
+            "baby"
+        ],
+        "sentences": [
+            "He likes a thick rug.",
+            "Father, I am weak, but You look into my heart and be my help.--H.C.Andersen",
+            "Christians may not see eye to eye, but they can walk arm in arm.",
+            "You may not play with bad boys.",
+            "Do you understand this?",
+            "Trust in the Lord with all your heart.--King Solomon, Proverbs 3:5",
+            "After my bad fall she comforted me.",
+            "Love of self may lead us to pray, but love of God leads us to praise.",
+            "I am tall to a grasshopper and short to a giant.",
+            "Please wave to us on the hill.",
+            "She lost her diamond ring down the drain.",
+            "Thou shall not kill.",
+            "Get the soft toy for the baby.",
+            "The child's tear flows like the dew-drop on the rose.",
+            "To will is not enough; we must do.--J. Goethe",
+            "We had fun with the baby.",
+            "Can we make a trade?",
+            "Please send my red and green robe.",
+            "Wash your hands before you eat.",
+            "The cold baby needs a blanket."
+        ]
+    },
+    "F": {
+        "words": [
+            "old",
+            "little",
+            "hot",
+            "cold",
+            "green",
+            "ice",
+            "long",
+            "wild",
+            "sea",
+            "flat",
+            "bread",
+            "child",
+            "star",
+            "day",
+            "wall",
+            "milk",
+            "hair",
+            "shot",
+            "floor",
+            "land"
+        ],
+        "sentences": [
+            "Do not grow old before your time.",
+            "Great oaks from little acorns grow.",
+            "Hot words make cool friends.",
+            "Will we fish if it is cold?",
+            "A hedge between keeps friendship green.",
+            "Steam, ice, and water; these three are one.",
+            "Old sins cast long shadows.",
+            "Who set the wild donkey free?--Job 39:5",
+            "He that cannot pray, let him go to sea, and there he will learn.",
+            "His bike has a flat tire.",
+            "Man shall not live by bread alone.",
+            "Even a child is known by his doings.--King Solomon, Proverbs 20:11",
+            "Twinkle, twinkle, little star, God has placed you where you are.",
+            "My joy is in God all the day.--Thomas Dilworth",
+            "No wall is high enough, no army strong enough to prevent God's judgment.",
+            "You can't hide a piece of broccoli in a glass of milk.",
+            "If you Mom is mad at your Dad, don't let her brush your hair.",
+            "As the boy ran, Jonathon shot an arrow behind him.",
+            "The boy can sit on the floor",
+            "Woe to the land that is governed by a child!--William Shakespeare, Richard III"
+        ]
+    },
+    "G": {
+        "words": [
+            "ask",
+            "let",
+            "then",
+            "gas",
+            "read",
+            "for",
+            "yes",
+            "door",
+            "now",
+            "lot",
+            "bacon",
+            "live",
+            "live",
+            "heat",
+            "box",
+            "three",
+            "if",
+            "stand",
+            "come",
+            "wing"
+        ],
+        "sentences": [
+            "Ask God's blessing on your work, but don't ask Him to do it for you.--F.Robson",
+            "Gravity will let you down.",
+            "Pride comes, them comes shame.--King Solomon, Proverbs 11:2",
+            "We will get gas for the car today.",
+            "Read the Bible, and you will live and die a better man.--A.Lincoln",
+            "Obey your parents in the Lord for this is right. Apostle Paul--Ephesians 6:1",
+            "Yes, you may go, but not yet.",
+            "When one door shuts, another opens.",
+            "Eternity is an everlasting now.",
+            "A friend is a lot of things, but a critic he isn't.--Bern Williams",
+            "We had bacon and eggs for breakfast.",
+            "I have a live baby chicken.",
+            "In God we live, and move, and have our being.--Apostle Paul, Acts 17:28",
+            "Heat no a furnace for your foe so hot that it does singe yourself.--Shakespeare",
+            "I put the pin on my tin box.--Webster's Bluebacked Speller",
+            "Fish and visitors smell after three days.--Benjamin Franklin",
+            "If God loved you as much as you love Him, where would you be?",
+            "The path that cuases the godly to stand will cause the wicked to stumble.",
+            "When he has tested me I will come forth as gold.--Job 23:10",
+            "Every bird that upward swings bears the cross upon its wing.--J. Neale"
+        ]
+    },
+    "H": {
+        "words": [
+            "his",
+            "just",
+            "about",
+            "much",
+            "ball",
+            "law",
+            "lay",
+            "soft",
+            "path",
+            "as",
+            "lone",
+            "alone",
+            "one",
+            "food",
+            "five",
+            "led",
+            "year",
+            "house",
+            "way",
+            "some"
+        ],
+        "sentences": [
+            "God is always true to His Word and His Name.",
+            "Just because you can does not mean you should.",
+            "He who goes about as a talebearer reveals secrets.",
+            "He who is thankful for little things enjoys much.",
+            "Can we play ball today?",
+            "A law is better unmade that unkept.--Henry Smith",
+            "I will both lay me down in peace and sleep.",
+            "A soft answer turns away wrath, but harsh words stir up anger.--Proverbs 15:1",
+            "God doesn't always smooth the path, but sometimes he puts springs in the wagons.",
+            "What looks dark in the distance may brighten as I draw near.--Mary G. Brainard",
+            "A lone bird flew over the beach.",
+            "Tis better to be alone than in bad company.--George Washington",
+            "Saying is one thing, and doing is another.--Aesop",
+            "Food, water, clothes--everything that Midas touched turned to gold.",
+            "Five pennies are worth on nickel.",
+            "The boy led the cat home.",
+            "Nobody outgrows Scripture; the Book widens and deepens with each year.--Spurgeon",
+            "Every wise woman builds her house.--King Solomon, Proverbs 14:1",
+            "The Lord knows the way that I take.--Job 23:10",
+            "Read some to me today."
+        ]
+    },
+    "I": {
+        "words": [
+            "call",
+            "row",
+            "salt",
+            "belong",
+            "bring",
+            "bite",
+            "get",
+            "send",
+            "coat",
+            "tell",
+            "how",
+            "yard",
+            "low",
+            "other",
+            "men",
+            "apple",
+            "well",
+            "late",
+            "that",
+            "them"
+        ],
+        "sentences": [
+            "He who pays the piper can call the tune.",
+            "Pray to God, but row for the shore.--Russian Proverb",
+            "The salt shaker is empty.",
+            "Little ones to Him belong. They are weak, but He is strong.--Anna Warner",
+            "I will bring a salad to the picnic.",
+            "Don't bite the hand that feeds you.--Aesop",
+            "The best way to get even is to forget.",
+            "Can you send the child over the hill?",
+            "The old, red coat belongs to me.",
+            "Be wiser than other people, if you can, but do not tell them so.--Phillip",
+            "To know how to use knowledge is to have wisdom.--Spurgeon",
+            "Shut the gate and keep the hogs out of the yard.--Websters Bluebacked Speller",
+            "Be it high or be it low, there is no place I can go where God can never find me.",
+            "Children rarely play at being other children.--David Holloway",
+            "The best men are at best only men.",
+            "Good things to eat are berries, nuts, and an apple so sweet.",
+            "It shall be well with them that fear God.",
+            "The boy was late today.",
+            "Taste and see that the LORD is good!--King David, Psalm 34:8",
+            "You took good things for granted; now you must earn them again.--G. Washington"
+        ]
+    },
+    "J": {
+        "words": [
+            "white",
+            "paper",
+            "cut",
+            "its",
+            "it's = it is",
+            "sick",
+            "gave",
+            "give",
+            "free",
+            "back",
+            "thing",
+            "roll",
+            "stone",
+            "foot",
+            "dance",
+            "lift",
+            "page",
+            "after",
+            "show",
+            "thank"
+        ],
+        "sentences": [
+            "The United States flag is red, white and blue.",
+            "Could you help me paper my bedroom wall?",
+            "Better be pruned to grow that cut up to burn.--J. Trapp",
+            "His dish, her dish, and its dish are all dirty.",
+            "It's a little bit the fiddle, but lots more who holds the bow.--Wilburn Wilson",
+            "He that eats until he is sick must fast until he is well.--Hebrew proverb",
+            "Job did not say, \"The Lord gave, and the devil took away.\"--T.Watson",
+            "Give me liberty or give me death.--Patrick Henry",
+            "You shall know the truth, and the truth shall make you free.--Apostle John, John 8:32",
+            "I do not pray for a lighter load, but for a stronger back.--P. Brooks",
+            "It is one thing to be tempted, another thing to fall.--William Shakespeare",
+            "Roll on, thou deep and dark blue ocean, roll!--the English poet, Byron",
+            "A stone is heavy...but a fool's wrath is heavier.--King Solomon, Proverbs 27:3",
+            "If you don't place your foot on the rope you'll never cross the chasm.--L. Smith",
+            "Come dance as you go on light fantastic toe.",
+            "God asked Job, \"Can you lift your voice to the clouds and demand that they rain?",
+            "The world is a great book and those who never leave home read only a page.--Augustine",
+            "You shall not go after other gods.-- Deut. 6:14",
+            "Outside show is a poor substitute for inner worth.--Aesop. The Vain Crow",
+            "It is good to thank the LORD.--Psalm 92:1"
+        ]
+    }
 };
 
 
@@ -376,7 +801,7 @@ const wordList = document.getElementById("wordList");
 
 const lessonGrid = document.getElementById("lessonGrid");
 
-"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(letter => {
+Object.keys(lessons).forEach(letter => {
 
     const button = document.createElement("button");
 
@@ -406,7 +831,7 @@ function openLesson(letter) {
 
     document.getElementById("completeMessage").textContent = "";
 
-    wordStates = lessons[letter].map(word => ({
+    wordStates = lessons[letter].words.map(word => ({
 
         word: word,
         answer: "",
@@ -439,7 +864,7 @@ function goHome() {
 // LISTEN TO WORD
 // ====================================
 
-function listen(index) {
+function speakText(text) {
 
     if (!window.speechSynthesis) {
         alert("Speech is not supported in this browser.");
@@ -448,9 +873,7 @@ function listen(index) {
 
     speechSynthesis.cancel();
 
-    const speech = new SpeechSynthesisUtterance(
-        wordStates[index].word
-    );
+    const speech = new SpeechSynthesisUtterance(text);
 
     speech.lang = "en-US";
     speech.rate = 0.8;
@@ -461,14 +884,22 @@ function listen(index) {
     const maleVoice = voices.find(voice =>
         /David|Mark|Guy|Christopher|Eric|Alex/i.test(voice.name)
         && voice.lang === "en-US"
-);
+    );
 
-if (maleVoice) {
-    speech.voice = maleVoice;
+    if (maleVoice) {
+        speech.voice = maleVoice;
+    }
+
+    speechSynthesis.speak(speech);
 }
 
-speechSynthesis.speak(speech);
+function listen(index) {
+    speakText(wordStates[index].word);
+}
 
+function listenToSentence(index) {
+    const sentence = lessons[currentLesson].sentences[index];
+    speakText(sentence);
 }
 
 
@@ -562,6 +993,16 @@ function renderWords() {
         listenButton.onclick = () => listen(index);
 
         row.appendChild(listenButton);
+
+        // SENTENCE BUTTON
+        const sentenceButton = document.createElement("button");
+
+        sentenceButton.className = "sentence-button";
+        sentenceButton.textContent = "Sentence";
+        sentenceButton.title = "Listen to the word in a sentence";
+        sentenceButton.onclick = () => listenToSentence(index);
+
+        row.appendChild(sentenceButton);
 
 
         // ADD ROW TO PAGE
@@ -711,14 +1152,14 @@ function updateProgress() {
 
 </script>
 
-    <footer style="
+<footer style="
     text-align: center;
     color: #999;
     font-size: 12px;
     padding: 20px 0 10px;
 ">
-    Build 1.0.2
+    Build 1.0.3
 </footer>
-    
+
 </body>
 </html>
